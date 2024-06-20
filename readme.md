@@ -13,7 +13,7 @@ You can work alone or in pairs with a colleague (maximum 2 people in a team). In
 1) Build your own operational database for your business.
 2) Use relationships: 1:1, 1:many, many:many.
 3) Use constraints.
-4) Use indexes for optimization (_that is why you need to insert approximately 500 000 in some tables to be able to show performance optimization_).
+4) Use indexes for optimization (_that is why you need to insert approximately 500 000 rows in some tables to be able to show performance optimization_).
 5) Do not forget add comments on tables and on tables' columns.
 6) Be able to present ERD.
 7) Be able to explain your solution using the correct terminology.
