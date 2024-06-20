@@ -35,7 +35,7 @@ Meeting the basic requirements of Practical Assignment 3 allows for a maximum of
 I suggest you look at my example of the execution of a part of the task, which is described below (Schedule Demo).
 
 ## Schedule Demo
-# Database Schema
+### Database Schema
 
 This is the database schema for the project:
 
