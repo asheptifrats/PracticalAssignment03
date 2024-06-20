@@ -139,6 +139,6 @@ erDiagram
 - Run script.sql in your database.
 - Set environment variables (host, user, password, database).
 - Run: 
-- ```sh 
+```sh 
   pip install -r requirements.txt
 - Run main.py.
