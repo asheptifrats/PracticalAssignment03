@@ -1,0 +1,87 @@
+import mysql.connector
+from mysql.connector import Error
+import uuid
+import os
+from dotenv import load_dotenv
+from faker import Faker
+
+load_dotenv()
+
+fake = Faker()
+
+HOST = os.getenv('host')
+USER = os.getenv('user')
+PASSWORD = os.getenv('password')
+DATABASE = os.getenv('database')
+
+
+def create_connection():
+    try:
+        connection = mysql.connector.connect(
+            host=HOST,
+            user=USER,
+            password=PASSWORD,
+            database=DATABASE
+        )
+        if connection.is_connected():
+            print("Connection to MySQL DB successful")
+        return connection
+    except Error as e:
+        print(f"The error '{e}' occurred")
+        return None
+
+
+def execute_query(connection, query, data):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query, data)
+        connection.commit()
+        print("Query executed successfully")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+
+
+def insert_data():
+    connection = create_connection()
+    if connection is None:
+        return
+
+    courses_query = """
+    INSERT INTO courses (course_id, course_name, description, start_date, end_date) 
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    courses_data = [
+        (str(uuid.uuid4()), fake.text(20), fake.text(50), fake.date_this_year(), fake.date_this_year())
+        for _ in range(5000)
+    ]
+    for data in courses_data:
+        execute_query(connection, courses_query, data)
+
+    parents_query = """
+        INSERT INTO parents (first_name, last_name, phone, email) 
+        VALUES (%s, %s, %s, %s)
+    """
+    parents_data = [
+        (fake.first_name(), fake.last_name(), fake.phone_number()[:15], fake.email())  # Limits to 15 characters
+        for _ in range(500000)
+    ]
+    for data in parents_data:
+        execute_query(connection, parents_query, data)
+
+    teachers_query = """
+    INSERT INTO teachers (teacher_id, first_name, last_name, phone, email) 
+    VALUES (%s, %s, %s, %s, %s)
+    """
+
+    teachers_data = [
+        (str(uuid.uuid4()), fake.first_name(), fake.last_name(), fake.phone_number()[:15], fake.email())
+        for _ in range(50000)
+    ]
+    for data in teachers_data:
+        execute_query(connection, teachers_query, data)
+
+    connection.close()
+
+
+if __name__ == "__main__":
+    insert_data()
